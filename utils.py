@@ -104,15 +104,6 @@ def proposed_acquisition_function(phi, delta_unlabeled):
     return proposed_phi
 
 
-def CU(X_unlabeled, clf):
-    predict_proba = clf.predict_proba(X_unlabeled)
-    max_proba = np.max(predict_proba, axis=1)
-    mean_proba = np.mean(predict_proba, axis=1)
-    CU_value = 1- ((max_proba-mean_proba)/(1-1/len(clf.classes_)))
-    
-    return CU_value
-
-
 def gini(X_unlabeled, clf):
     predict_proba = clf.predict_proba(X_unlabeled)
     squared_proba = predict_proba **2
