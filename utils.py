@@ -26,7 +26,6 @@ def missing_value_generator(X, missing_rate, seed):
         for j in missing_idx:
             X_missing[i,j] = np.nan
     
-    
     return X_missing
 
 
@@ -48,21 +47,6 @@ def imputation_uncertainty(imputed_list):
     
     return delta
 
-def low_k_idx(array, k):
-    array_idx = np.arange(len(array))
-    sorted_array = sorted(array_idx, key=lambda x: array[x])
-    low_k_index = sorted_array[:k]
-    
-    return low_k_index
-
-
-def top_k_idx(array, k):
-    array_idx = np.arange(len(array))
-    sorted_array = sorted(array_idx, key=lambda x: array[x], reverse=True)
-    top_k_index = sorted_array[:k]
-    
-    return top_k_index
-
 
 def random_k_idx(array, k, seed):
     array_idx = np.arange(len(array))
@@ -71,6 +55,7 @@ def random_k_idx(array, k, seed):
     random_k_index = array_idx[:k]
     
     return random_k_index
+
 
 def entropy(X_unlabeled, clf):
     predict_proba = clf.predict_proba(X_unlabeled)
@@ -85,13 +70,13 @@ def least_confidence(X_unlabeled, clf):
     
     return lc_array
 
+
 def least_margin(X_unlabeled, clf):
     predict_proba = clf.predict_proba(X_unlabeled)
     top_2_proba = np.sort(predict_proba, axis=1)[:,-2:]
     lm_array = - (top_2_proba[:,1] - top_2_proba[:,0])
     
     return lm_array    
-
 
 
 def proposed_acquisition_function(phi, delta_unlabeled):
@@ -131,5 +116,3 @@ def CUMIR(X_unlabeled, clf, idx_unlabeled, imputed_list):
     total_variance = within_variance + (1+1/len(imputed_list))*between_variance
     
     return total_variance
-    
-    
